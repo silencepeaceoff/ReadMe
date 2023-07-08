@@ -6,12 +6,29 @@
 //
 
 import SwiftUI
+import Combine
 
-struct Library {
+enum Section: CaseIterable {
+  case readMe
+  case finished
+}
+
+class Library: ObservableObject {
   
-  var sortedBooks: [Book] { bookshelf }
+  var sortedBooks: [Section: [Book]] {
+    let groupedBooks = Dictionary(grouping: bookshelf, by: \.readMe)
+    return Dictionary(uniqueKeysWithValues: groupedBooks.map {
+      ($0.key ? .readMe : .finished, $0.value)
+    })
+  }
 
-  private var bookshelf: [Book] = [
+  /// Adds a new book at the start of the library's manually-sorted books.
+  func addNewBook(_ book: Book, image: Image?) {
+    bookshelf.insert(book, at: 0)
+    images[book] = image
+  }
+
+  @Published private var bookshelf: [Book] = [
     .init(title: "Dune", author: "Frank Herbert", microRewiew: "Some short review..."),
     .init(title: "Dune Messiah", author: "Frank Herbert", microRewiew: "Some short review..."),
     .init(title: "Children of Dune", author: "Frank Herbert", microRewiew: "Some short review..."),
@@ -41,5 +58,5 @@ struct Library {
     .init(title: "Foundation and Earth", author: "Isaac Asimov")
   ]
 
-  var images: [Book: Image] = [:]
+  @Published var images: [Book: Image] = [:]
 }

@@ -15,9 +15,9 @@
 		355BC21A2A558754008B2FA1 /* BookViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BC2192A558754008B2FA1 /* BookViews.swift */; };
 		355BC21F2A559724008B2FA1 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BC21E2A559724008B2FA1 /* Library.swift */; };
 		355BC2212A55A278008B2FA1 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BC2202A55A278008B2FA1 /* DetailView.swift */; };
-		355BC2232A55CC8B008B2FA1 /* PHPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BC2222A55CC8B008B2FA1 /* PHPickerViewController.swift */; };
-		355BC2252A55EEFE008B2FA1 /* PhotosSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BC2242A55EEFE008B2FA1 /* PhotosSelector.swift */; };
 		355BC2272A55F6C7008B2FA1 /* PhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BC2262A55F6C7008B2FA1 /* PhotoView.swift */; };
+		355BC22A2A595C39008B2FA1 /* NewBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BC2292A595C39008B2FA1 /* NewBookView.swift */; };
+		355BC22C2A596638008B2FA1 /* ReviewAndImageStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355BC22B2A596638008B2FA1 /* ReviewAndImageStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,9 +30,9 @@
 		355BC2192A558754008B2FA1 /* BookViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookViews.swift; sourceTree = "<group>"; };
 		355BC21E2A559724008B2FA1 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
 		355BC2202A55A278008B2FA1 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
-		355BC2222A55CC8B008B2FA1 /* PHPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHPickerViewController.swift; sourceTree = "<group>"; };
-		355BC2242A55EEFE008B2FA1 /* PhotosSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosSelector.swift; sourceTree = "<group>"; };
 		355BC2262A55F6C7008B2FA1 /* PhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoView.swift; sourceTree = "<group>"; };
+		355BC2292A595C39008B2FA1 /* NewBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBookView.swift; sourceTree = "<group>"; };
+		355BC22B2A596638008B2FA1 /* ReviewAndImageStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewAndImageStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,9 +88,9 @@
 				355BC20A2A5584C8008B2FA1 /* ContentView.swift */,
 				355BC2192A558754008B2FA1 /* BookViews.swift */,
 				355BC2202A55A278008B2FA1 /* DetailView.swift */,
-				355BC2222A55CC8B008B2FA1 /* PHPickerViewController.swift */,
-				355BC2242A55EEFE008B2FA1 /* PhotosSelector.swift */,
 				355BC2262A55F6C7008B2FA1 /* PhotoView.swift */,
+				355BC2292A595C39008B2FA1 /* NewBookView.swift */,
+				355BC22B2A596638008B2FA1 /* ReviewAndImageStack.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -182,14 +182,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				355BC2252A55EEFE008B2FA1 /* PhotosSelector.swift in Sources */,
 				355BC20B2A5584C8008B2FA1 /* ContentView.swift in Sources */,
 				355BC2212A55A278008B2FA1 /* DetailView.swift in Sources */,
 				355BC2092A5584C8008B2FA1 /* ReadMeApp.swift in Sources */,
 				355BC2272A55F6C7008B2FA1 /* PhotoView.swift in Sources */,
+				355BC22C2A596638008B2FA1 /* ReviewAndImageStack.swift in Sources */,
 				355BC21F2A559724008B2FA1 /* Library.swift in Sources */,
 				355BC2172A55868F008B2FA1 /* Book.swift in Sources */,
-				355BC2232A55CC8B008B2FA1 /* PHPickerViewController.swift in Sources */,
+				355BC22A2A595C39008B2FA1 /* NewBookView.swift in Sources */,
 				355BC21A2A558754008B2FA1 /* BookViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

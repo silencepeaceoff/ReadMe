@@ -10,53 +10,51 @@ import Combine
 
 struct ContentView: View {
 
-  @State var library = Library()
+  @EnvironmentObject var library: Library
+  @State var isAddNewBook = false
 
   var body: some View {
     NavigationView {
       List {
         Button {
-
+          isAddNewBook = true
         } label: {
           Spacer()
-          VStack(alignment: .center) {
+
+          VStack(spacing: 6.0) {
             Image(systemName: "book.circle")
               .font(.system(size: 60))
             Text("Add New Book")
               .font(.title2)
           }
+
           Spacer()
         }
         .buttonStyle(.borderless)
         .padding(.vertical, 8)
+        .sheet(isPresented: $isAddNewBook, content: NewBookView.init)
 
-        ForEach(library.sortedBooks) { book in
-          BookRowView(
-            book: book,
-            image: $library.images[book]
-          )
+        ForEach(Section.allCases, id: \.self) {
+          SectionView(section: $0)
         }
-//        .listRowSeparatorTint(.red)
       }
-//      .listStyle(.plain)
       
       .navigationTitle("My Library")
     }
-//    .listStyle(.plain)
   }
 }
 
-struct BookRowView: View {
+private struct BookRowView: View {
 
   @ObservedObject var book: Book
-  @Binding var image: Image?
+  @EnvironmentObject var library: Library
 
   var body: some View {
 
-    NavigationLink(destination: DetailView(book: book, image: $image)) {
+    NavigationLink(destination: DetailView(book: book)) {
       HStack {
         Book.Image(
-          image: image,
+          image: library.images[book],
           cornerRadius: 12,
           title: book.title,
           size: 80.0
@@ -85,9 +83,33 @@ struct BookRowView: View {
   }
 }
 
+private struct SectionView: View {
+
+  let section: Section
+  @EnvironmentObject var library: Library
+
+  var body: some View {
+    if let books = library.sortedBooks[section] {
+      SwiftUI.Section {
+        ForEach(books) { book in
+          BookRowView(book: book)
+        }
+      } header: {
+        Image("BookTexture")
+          .resizable()
+          .scaledToFit()
+          .listRowInsets(.init())
+      }
+
+    }
+
+  }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     ContentView()
+      .environmentObject(Library())
   }
 }
