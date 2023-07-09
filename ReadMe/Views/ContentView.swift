@@ -38,7 +38,8 @@ struct ContentView: View {
           SectionView(section: $0)
         }
       }
-      
+      .listStyle(.insetGrouped)
+      .toolbar(content: EditButton.init)
       .navigationTitle("My Library")
     }
   }
@@ -88,17 +89,61 @@ private struct SectionView: View {
   let section: Section
   @EnvironmentObject var library: Library
 
+  var title: String {
+    switch section {
+    case .readMe:
+      return "Read Me!"
+    case .finished:
+      return "Finished!"
+    }
+  }
+
   var body: some View {
     if let books = library.sortedBooks[section] {
       SwiftUI.Section {
         ForEach(books) { book in
           BookRowView(book: book)
+            .swipeActions(edge: .leading) {
+              Button {
+                withAnimation {
+                  book.readMe.toggle()
+                  library.sortBooks()
+                }
+              } label: {
+                book.readMe ? Label("Finished!", systemImage: "bookmark.slash") : Label("Read Me!", systemImage: "bookmark")
+              }
+              .tint(.accentColor)
+            }
+            .swipeActions(edge: .trailing) {
+              Button(role: .destructive) {
+                guard let index = books.firstIndex(where: { $0.id == book.id }) else { return }
+                withAnimation {
+                  library.deleteBooks(atOffsets: .init(integer: index), section: section)
+                }
+              } label: {
+                Label("Delete", systemImage: "trash")
+              }
+            }
         }
+        .onDelete(perform: { indexSet in
+          library.deleteBooks(atOffsets: indexSet, section: section)
+        })
+        .onMove(perform: { indexes, newOffset in
+          library.moveBooks(oldOffset: indexes, newOffset: newOffset, section: section)
+        })
+        .labelStyle(.iconOnly)
+
       } header: {
-        Image("BookTexture")
-          .resizable()
-          .scaledToFit()
-          .listRowInsets(.init())
+        ZStack {
+          Image("BookTexture")
+            .resizable()
+            .scaledToFit()
+
+          Text(title)
+            .font(.custom("American Typewriter", size: 24))
+            .foregroundColor(.primary)
+        }
+        .listRowInsets(.init())
       }
 
     }

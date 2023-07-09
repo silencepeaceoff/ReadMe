@@ -16,16 +16,46 @@ enum Section: CaseIterable {
 class Library: ObservableObject {
   
   var sortedBooks: [Section: [Book]] {
-    let groupedBooks = Dictionary(grouping: bookshelf, by: \.readMe)
-    return Dictionary(uniqueKeysWithValues: groupedBooks.map {
-      ($0.key ? .readMe : .finished, $0.value)
-    })
+    get {
+      let groupedBooks = Dictionary(grouping: bookshelf, by: \.readMe)
+      return Dictionary(uniqueKeysWithValues: groupedBooks.map {
+        ($0.key ? .readMe : .finished, $0.value)
+      })
+    }
+    set {
+      bookshelf = newValue
+        .sorted { $1.key == .finished }
+        .flatMap { $0.value }
+    }
+  }
+
+  func sortBooks() {
+    bookshelf = sortedBooks
+      .sorted { $1.key == .finished }
+      .flatMap { $0.value }
+    objectWillChange.send()
   }
 
   /// Adds a new book at the start of the library's manually-sorted books.
   func addNewBook(_ book: Book, image: Image?) {
     bookshelf.insert(book, at: 0)
     images[book] = image
+  }
+
+  func deleteBooks(atOffsets offsets: IndexSet, section: Section) {
+    let booksBeforeDeletion = bookshelf
+
+    sortedBooks[section]?.remove(atOffsets: offsets)
+
+    for change in bookshelf.difference(from: booksBeforeDeletion) {
+      if case .remove(_, let deletedBook, _) = change {
+        images[deletedBook] = nil
+      }
+    }
+  }
+
+  func moveBooks(oldOffset: IndexSet, newOffset: Int, section: Section) {
+    sortedBooks[section]?.move(fromOffsets: oldOffset, toOffset: newOffset)
   }
 
   @Published private var bookshelf: [Book] = [
@@ -36,12 +66,12 @@ class Library: ObservableObject {
     .init(title: "Heretics of Dune", author: "Frank Herbert", microRewiew: "Some short review..."),
     .init(title: "Chapterhouse: Dune", author: "Frank Herbert", microRewiew: "Some short review..."),
 
-    .init(title: "The Hobbit", author: "J.R.R.Tolkien"),
+      .init(title: "The Hobbit", author: "J.R.R.Tolkien"),
     .init(title: "The Lord of the Rings: The Fellowship of the Ring", author: "J.R.R.Tolkien"),
     .init(title: "The Lord of the Rings: The Two Towers", author: "J.R.R.Tolkien"),
     .init(title: "The Lord of the Rings: The Return of the King", author: "J.R.R.Tolkien"),
 
-    .init(title: "The Complete Robot", author: "Isaac Asimov"),
+      .init(title: "The Complete Robot", author: "Isaac Asimov"),
     .init(title: "I, Robot", author: "Isaac Asimov"),
     .init(title: "Second Foundation", author: "Isaac Asimov"),
     .init(title: "The Caves of Steel", author: "Isaac Asimov"),
